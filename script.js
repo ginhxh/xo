@@ -1,88 +1,121 @@
-// Function to make the bot's move
-const makeBotMove = (board) => {
-  // Check if the bot can win in the next move
-  for (let i = 0; i < 3; i++) {
-    for (let j = 0; j < 3; j++) {
-      if (board[i][j] === '') {
-        board[i][j] = 'O';
-        if (checkWin(board, 'O')) {
-          return;
-        }
-        board[i][j] = '';
-      }
-    }
-  }
-
-  // Check if the player can win in the next move, and block it
-  for (let i = 0; i < 3; i++) {
-    for (let j = 0; j < 3; j++) {
-      if (board[i][j] === '') {
-        board[i][j] = 'X';
-        if (checkWin(board, 'X')) {
-          board[i][j] = 'O';
-          return;
-        }
-        board[i][j] = '';
-      }
-    }
-  }
-
-  // If no immediate win or block possible, make a random move
-  let row, col;
-  do {
-    row = Math.floor(Math.random() * 3);
-    col = Math.floor(Math.random() * 3);
-  } while (board[row][col] !== '');
-  board[row][col] = 'O';
-};
-
-// Function to play the game with the bot
-const playGameAgainstBot = () => {
-  let board = createBoard();
+document.addEventListener('DOMContentLoaded', () => {
+  const cells = document.querySelectorAll('.cell');
+  const statusDisplay = document.getElementById('status');
+  const restartButton = document.getElementById('restartButton');
+  let board = ['', '', '', '', '', '', '', '', ''];
   let currentPlayer = 'X';
-  while (true) {
-    console.clear();
-    console.log(`Player ${currentPlayer}'s turn`);
-    displayBoard(board);
-    if (currentPlayer === 'X') {
-      let row = prompt('Enter row (0, 1, or 2):');
-      let col = prompt('Enter column (0, 1, or 2):');
-      if (board[row][col] === '') {
-        board[row][col] = currentPlayer;
-        if (checkWin(board, currentPlayer)) {
-          console.clear();
-          displayBoard(board);
-          console.log(`Player ${currentPlayer} wins!`);
-          break;
-        } else if (isBoardFull(board)) {
-          console.clear();
-          displayBoard(board);
-          console.log('It\'s a draw!');
-          break;
-        } else {
-          currentPlayer = 'O';
+  let gameActive = true;
+
+  const winningConditions = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+  ];
+
+  const checkWin = (board, player) => {
+    return winningConditions.some(condition => {
+      return condition.every(index => board[index] === player);
+    });
+  };
+
+  const isBoardFull = (board) => {
+    return board.every(cell => cell !== '');
+  };
+
+  const makeBotMove = () => {
+    for (let i = 0; i < 9; i++) {
+      if (board[i] === '') {
+        board[i] = 'O';
+        if (checkWin(board, 'O')) {
+          return i;
         }
-      } else {
-        console.log('Cell already taken. Try again.');
-      }
-    } else {
-      makeBotMove(board);
-      if (checkWin(board, currentPlayer)) {
-        console.clear();
-        displayBoard(board);
-        console.log(`Player ${currentPlayer} wins!`);
-        break;
-      } else if (isBoardFull(board)) {
-        console.clear();
-        displayBoard(board);
-        console.log('It\'s a draw!');
-        break;
-      } else {
-        currentPlayer = 'X';
+        board[i] = '';
       }
     }
-  }
-};
 
-// Start the game against the bot
-playGameAgainstBot();
+    for (let i = 0; i < 9; i++) {
+      if (board[i] === '') {
+        board[i] = 'X';
+        if (checkWin(board, 'X')) {
+          board[i] = 'O';
+          return i;
+        }
+        board[i] = '';
+      }
+    }
+
+    let emptyCells = [];
+    for (let i = 0; i < 9; i++) {
+      if (board[i] === '') {
+        emptyCells.push(i);
+      }
+    }
+    const randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+    board[randomIndex] = 'O';
+    return randomIndex;
+  };
+
+  const handleCellClick = (event) => {
+    const clickedCell = event.target;
+    const clickedCellIndex = Array.from(cells).indexOf(clickedCell);
+
+    if (board[clickedCellIndex] !== '' || !gameActive) {
+      return;
+    }
+
+    board[clickedCellIndex] = currentPlayer;
+    clickedCell.textContent = currentPlayer;
+
+    if (checkWin(board, currentPlayer)) {
+      statusDisplay.textContent = `Player ${currentPlayer} wins!`;
+      gameActive = false;
+      return;
+    }
+
+    if (isBoardFull(board)) {
+      statusDisplay.textContent = 'It\'s a draw!';
+      gameActive = false;
+      return;
+    }
+
+    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+
+    if (currentPlayer === 'O') {
+      const botMoveIndex = makeBotMove();
+      cells[botMoveIndex].textContent = 'O';
+
+      if (checkWin(board, 'O')) {
+        statusDisplay.textContent = 'Player O wins!';
+        gameActive = false;
+        return;
+      }
+
+      if (isBoardFull(board)) {
+        statusDisplay.textContent = 'It\'s a draw!';
+        gameActive = false;
+        return;
+      }
+
+      currentPlayer = 'X';
+      statusDisplay.textContent = `Player X's turn`;
+    } else {
+      statusDisplay.textContent = `Player ${currentPlayer}'s turn`;
+    }
+  };
+
+  const handleRestartGame = () => {
+    board = ['', '', '', '', '', '', '', '', ''];
+    gameActive = true;
+    currentPlayer = 'X';
+    statusDisplay.textContent = `Player X's turn`;
+    cells.forEach(cell => cell.textContent = '');
+  };
+
+  cells.forEach(cell => cell.addEventListener('click', handleCellClick));
+  restartButton.addEventListener('click', handleRestartGame);
+});
