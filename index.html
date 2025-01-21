@@ -3,20 +3,47 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>RSP</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h3>your score <span class="hymn"></span></h3>
-    <h3>computer score <span class="comp"></span></h3>
-    <h1>fffd</h1>
-    <h2>ff</h2>
+    <header>
+      <h1>Rock, Paper, And Scissors</h1>
+      <div class="allscr">
+        <h3>Scores</h3>
+        <div class="scores">
+          <p>you: <span class="you">0</span></p>
+          <p>Computer: <span class="computer">0</span></p>
+        </div>
+        <p class="desicion"></p>
+      </div>
+    </header>
 
-    <div class="choix">
-      <button style="background-color: rgb(242, 20, 5)">rock</button>
-      <button style="background-color: rgb(10, 10, 203)">peper</button>
-      <button style="background-color: rgb(208, 234, 12)">sesier</button>
-    </div>
+    <main>
+      <section class="secti">
+        <div class="all_choise">
+          <div class="hymnChois">
+            <h2>Chose your Wepon:</h2>
+            <div class="choisses">
+              <div><img class="dd sser" src="img/scissor.webp" alt="" /></div>
+              <div><img class="dd rock" src="img/rock.jpg" alt="" /></div>
+              <div><img class="dd paper" src="img/pip.webp" alt="" /></div>
+            </div>
+          </div>
+          <div class="compChois">
+            <h2>Computer chossed:</h2>
+            <div class="choisses">
+              <div><img class="comppp" src="" alt="" /></div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-    <script src="scirpt.js"></script>
+      <section class="mrg">
+        <div class="btn"><button>Reset</button></div>
+      </section>
+    </main>
+
+    <script src="js.js"></script>
   </body>
 </html>

@@ -1,3 +1,124 @@
-.choix {
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100%;
+  background-color: yellow;
+}
+header {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  margin-bottom: 40px;
+  padding: 36px;
+}
+h1 {
+  margin-bottom: 65px;
+}
+header img {
+  width: 80%;
+}
+.disabled {
+  display: none;
+}
+
+.scores {
+  display: flex;
+  align-items: center;
+  font-size: 900;
+  font-size: 34px;
+  color: white;
+  gap: 48px;
+}
+.scores span {
+  color: red;
+  font-weight: bolder;
+}
+.allscr {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-direction: column;
+  font-size: 900;
+  font-size: 34px;
+}
+
+main {
+  width: 80%;
+  margin: auto;
+}
+.secti {
+  width: 80%;
+  margin: auto;
+  margin-bottom: 65px;
+}
+.choisses {
+  width: 80%;
+  display: flex;
+  justify-content: space-around;
+  margin: auto;
+  display: flex;
+  gap: 28px;
+}
+.hymnChois {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.choisses div {
+  width: 60%;
+  box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+  margin: auto;
+}
+.choisses div:hover {
+  scale: 1.05;
+}
+.choisses img,
+.choisses img {
+  width: 80%;
+}
+
+.all_choise {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 60px;
+}
+
+.compChois {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60%;
+}
+
+button {
+  padding: 8px 16px;
+  background-color: brown;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  align-self: center;
+}
+button:hover {
+  scale: 1.05;
+  background-color: red;
+}
+.btn {
+  display: flex;
+  width: 40%;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  margin-bottom: 100px;
 }
